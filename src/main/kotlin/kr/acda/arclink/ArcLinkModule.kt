@@ -26,7 +26,10 @@ import java.util.UUID
 	version = "1.0.0",
 	description = "Dedicated socket bridge to the ARCLink client mod for server-pushed client UI/features",
 	authors = ["raaaaming"],
-	libraries = ["org.java-websocket:Java-WebSocket:1.6.0"],
+	// Gson is on the server's JVM classpath (Paper/arc-core use it internally) but ARCCore's
+	// module classloader isolation hides it from modules unless declared here explicitly —
+	// omitting it crashes onEnable with NoClassDefFoundError: com/google/gson/GsonBuilder.
+	libraries = ["org.java-websocket:Java-WebSocket:1.6.0", "com.google.code.gson:gson:2.11.0"],
 	exports = ["kr.acda.arclink"],
 )
 class ArcLinkModule : BaseRuntimeModule() {
