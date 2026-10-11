@@ -16,6 +16,9 @@ data class ArcLinkConfig(
 	var presharedKeyHex: String = "",
 	var sessionTokenTtlSeconds: Long = 1800,
 	var idleTimeoutSeconds: Long = 30,
+	var httpPort: Int = 25567,
+	var fileBaseDir: String = "files",
+	var fileTokenTtlSeconds: Long = 300,
 ) {
 	fun presharedKeyBytes(): ByteArray = HexFormat.of().parseHex(presharedKeyHex)
 
@@ -27,6 +30,9 @@ data class ArcLinkConfig(
 		val presharedKeyHex: String? = null,
 		val sessionTokenTtlSeconds: Long? = null,
 		val idleTimeoutSeconds: Long? = null,
+		val httpPort: Int? = null,
+		val fileBaseDir: String? = null,
+		val fileTokenTtlSeconds: Long? = null,
 	)
 
 	companion object {
@@ -42,6 +48,9 @@ data class ArcLinkConfig(
 						presharedKeyHex = raw.presharedKeyHex,
 						sessionTokenTtlSeconds = raw.sessionTokenTtlSeconds ?: defaults.sessionTokenTtlSeconds,
 						idleTimeoutSeconds = raw.idleTimeoutSeconds ?: defaults.idleTimeoutSeconds,
+						httpPort = raw.httpPort ?: defaults.httpPort,
+						fileBaseDir = raw.fileBaseDir ?: defaults.fileBaseDir,
+						fileTokenTtlSeconds = raw.fileTokenTtlSeconds ?: defaults.fileTokenTtlSeconds,
 					)
 				}
 			}

@@ -169,6 +169,9 @@ class ArcLinkSocketServer(
 			addProperty("sessionToken", token)
 			addProperty("serverProof", serverProof)
 			addProperty("expiresAtEpochMs", expiresAt)
+			// Optional field (CLAUDE.md 4.1: additive-only) — lets a future client build file URLs
+			// from its already-known `host` without a separate config entry. Older clients ignore it.
+			addProperty("httpPort", config.httpPort)
 		}
 		session.conn.send(WireMessage.create(TYPE_AUTH_RESULT, ownVersion.toString(), payload).toJson(gson))
 		logger.info("ARCLink authenticated player '$playerName'")

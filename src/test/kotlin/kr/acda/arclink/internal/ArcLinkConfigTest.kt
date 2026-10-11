@@ -42,5 +42,24 @@ class ArcLinkConfigTest {
 		assertEquals(ArcLinkConfig().port, loaded.port)
 		assertEquals(ArcLinkConfig().idleTimeoutSeconds, loaded.idleTimeoutSeconds)
 		assertEquals(ArcLinkConfig().sessionTokenTtlSeconds, loaded.sessionTokenTtlSeconds)
+		assertEquals(ArcLinkConfig().httpPort, loaded.httpPort)
+		assertEquals(ArcLinkConfig().fileBaseDir, loaded.fileBaseDir)
+		assertEquals(ArcLinkConfig().fileTokenTtlSeconds, loaded.fileTokenTtlSeconds)
+	}
+
+	@Test
+	fun explicitFileServerFieldsAreRespected() {
+		val dir = Files.createTempDirectory("arclink-config-test")
+		val path = dir.resolve("config.json")
+		Files.writeString(
+			path,
+			"""{"presharedKeyHex":"aabbcc","httpPort":9000,"fileBaseDir":"assets","fileTokenTtlSeconds":60}""",
+		)
+
+		val loaded = ArcLinkConfig.loadOrCreate(path, NoopLogger())
+
+		assertEquals(9000, loaded.httpPort)
+		assertEquals("assets", loaded.fileBaseDir)
+		assertEquals(60L, loaded.fileTokenTtlSeconds)
 	}
 }
